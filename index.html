@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <script src="libs/build/react.js"></script>
+    <script src="libs/build/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" charset="utf-8">
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+
+      var innerColors = [
+        'rgb(129, 184, 165)',
+        'rgb(162, 96, 43)',
+        'rgb(37, 112, 33)',
+        'rgb(217, 205, 50)',
+        'rgb(68, 99, 157)',
+        'rgb(0, 0, 0)',
+        'rgb(50, 39, 96)',
+        'rgb(72, 207, 247)'
+      ];
+
+      Array.prototype.shuffle = function() {
+        return this.sort(function() {
+          return 0.5 - Math.random();
+        });
+      };
+
+      var colors = innerColors.concat();
+      colors = colors.concat(innerColors);
+      colors.shuffle();
+
+      var Square = React.createClass({
+        render: function() {
+          return (
+            <div key={} className="box" style={this.props.style}>
+
+            </div>
+          )
+        }
+      });
+
+      var GameArea = React.createClass({
+        render: function() {
+          return (
+            <div className="box-container">
+              <h1>Game</h1>
+              {
+                colors.map(function(el) {
+                  var boxStyle = {
+                    backgroundColor: el,
+                  };
+                  return <Square style={boxStyle} />;
+                })
+              }
+            </div>
+          )
+        }
+      });
+
+      ReactDOM.render(
+        <GameArea />,
+        document.getElementById('container')
+      );
+    </script>
+  </body>
+</html>

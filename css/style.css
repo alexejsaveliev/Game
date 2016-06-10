@@ -1,0 +1,12 @@
+
+#container {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.box {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  margin-bottom: -4px;
+}
