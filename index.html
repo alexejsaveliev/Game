@@ -27,7 +27,7 @@
         { id: 6,
         color: '#00E676' },
         { id: 7,
-        color: '#673AB7' },
+        color: '#9C27B0' },
         { id: 8,
         color: '#FF6D00' },
       ];
@@ -91,7 +91,7 @@
         render: function() {
           return (
             <div className="gameOverShader">
-              <button onClick={this.resetGame}>Play again</button>
+              <button className="btn" onClick={this.props.reset}><span>PLAY AGAIN</span></button>
             </div>
           )
         }
@@ -107,9 +107,8 @@
         },
 
         resetGame: function() {
-          console.log('123');
           this.setState({
-            gameOver: !this.state.gameOver,
+            gameOver: false,
             reset: !this.state.reset,
             qualitySteps: 0
           });
@@ -119,8 +118,6 @@
           this.setState({
             qualitySteps: this.state.qualitySteps + 1
           });
-
-          console.log(this.state.qualitySteps);
 
           if (this.state.qualitySteps == innerColors.length-1) {
             this.setState({
@@ -146,7 +143,7 @@
                   );
                 })
                 }
-                { true ? <GameOverBlock /> : null }
+                { this.state.gameOver ? <GameOverBlock reset={this.resetGame}/> : null }
                 </div>
 
 
