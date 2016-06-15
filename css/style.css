@@ -1,19 +1,67 @@
 
-#container {
-  width: 616px;
-  margin: 0 auto;
+#main, .gameOverShader, .child-container {
+    width: 616px;
+    margin: 0 auto;
+}
+.gameOverShader {
+  top: 0;
+  left: 0;
+  height: 616px;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
-.box .box-shader {
-  background-color: #000;
-  width: 150px;
-  height: 150px;
+.child-container {
+  position: relative;
 }
 
+#main h1 {
+  font-family: sans-serif;
+  text-align: center;
+}
+.box-container {
+    display: inline-block;
+    margin-bottom: -4px;
+    border: 2px solid #fff;
+    perspective: 1000px;
+}
 .box {
-  width: 150px;
-  height: 150px;
-  display: inline-block;
-  margin-bottom: -4px;
-  border: 2px solid rgb(255, 255, 255);
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+.box-container.hover .box {
+    transform: rotateY(180deg);
+}
+.box-container, .box-front, .box-back, .box {
+    width: 150px;
+    height: 150px;
+    border-radius: 3px;
+}
+.box-front, .box-back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.box-front {
+    z-index: 2;
+    background: #000 url(../img/questions.png) no-repeat 50% 50%;
+    background-size: 50%;
+    transform: rotateY(0deg);
+}
+.box-back {
+    transform: rotateY(180deg);
+}
+.gameOverShader button {
+  position: absolute;
+  margin: 0 auto;
+  top: 44%;
+  left: 33%;
+  height: 70px;
+  width: 200px;
+  background-color: #FF6E40;
+  border-radius: 3px;
+  font-family: Verdana;
+  font-size: 25px;
 }

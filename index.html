@@ -10,26 +10,26 @@
     <link rel="stylesheet" href="css/style.css" charset="utf-8">
   </head>
   <body>
-    <div id="container"></div>
+    <div id="main"></div>
     <script type="text/babel">
 
       var innerColors = [
         { id: 1,
-        color: 'rgb(129, 184, 165)' },
+        color: '#F44336' },
         { id: 2,
-        color: 'rgb(162, 96, 43)' },
+        color: '#3F51B5' },
         { id: 3,
-        color: 'rgb(37, 112, 33)' },
+        color: '#009688' },
         { id: 4,
-        color: 'rgb(217, 205, 50)' },
+        color: '#FFEB3B' },
         { id: 5,
-        color: 'rgb(68, 99, 157)' },
+        color: '#795548' },
         { id: 6,
-        color: 'rgb(255, 0, 0)' },
+        color: '#00E676' },
         { id: 7,
-        color: 'rgb(50, 39, 96)' },
+        color: '#673AB7' },
         { id: 8,
-        color: 'rgb(72, 207, 247)' },
+        color: '#FF6D00' },
       ];
 
       Array.prototype.shuffle = function() {
@@ -67,6 +67,7 @@
 
               prevTarget = undefined;
             } else {
+              this.props.count();
               prevTarget = undefined;
             }
           } else {
@@ -76,26 +77,79 @@
 
         render: function() {
           return (
-            <div className="box" style={this.props.style}>
-              { this.state.opened ? null : <div className="box-shader" onClick={this.checkColor}></div> }
+            <div className={this.state.opened ? "box-container hover" : "box-container"} onClick={this.checkColor}>
+              <div className="box">
+                <div className="box-front" ></div>
+                <div className="box-back" style={this.props.style}></div>
+              </div>
+            </div>
+          )
+        }
+      });
+
+      var GameOverBlock = React.createClass({
+        render: function() {
+          return (
+            <div className="gameOverShader">
+              <button onClick={this.resetGame}>Play again</button>
             </div>
           )
         }
       });
 
       var GameArea = React.createClass({
+        getInitialState: function() {
+          return {
+            gameOver: false,
+            qualitySteps: 0,
+            reset: false
+          }
+        },
+
+        resetGame: function() {
+          console.log('123');
+          this.setState({
+            gameOver: !this.state.gameOver,
+            reset: !this.state.reset,
+            qualitySteps: 0
+          });
+        },
+
+        count: function() {
+          this.setState({
+            qualitySteps: this.state.qualitySteps + 1
+          });
+
+          console.log(this.state.qualitySteps);
+
+          if (this.state.qualitySteps == innerColors.length-1) {
+            this.setState({
+              gameOver: true
+            });
+          }
+        },
+
         render: function() {
+          var that = this;
           return (
-            <div className="box-container">
-              <h1>Game</h1>
+            <div key={this.state.reset} className="container">
+              <h1>The Game</h1>
+              <div className="child-container">
               {
                 colors.map(function(el, index) {
                   var boxStyle = {
                     backgroundColor: el.color
                   };
-                  return <Square key={index} id={el.id} style={boxStyle} />;
+
+                  return (
+                    <Square key={index} id={el.id} style={boxStyle} count={that.count} />
+                  );
                 })
-              }
+                }
+                { true ? <GameOverBlock /> : null }
+                </div>
+
+
             </div>
           )
         }
@@ -103,7 +157,7 @@
 
       ReactDOM.render(
         <GameArea />,
-        document.getElementById('container')
+        document.getElementById('main')
       );
     </script>
   </body>
