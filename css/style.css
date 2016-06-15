@@ -1,12 +1,19 @@
 
 #container {
-  width: 800px;
+  width: 616px;
   margin: 0 auto;
 }
 
+.box .box-shader {
+  background-color: #000;
+  width: 150px;
+  height: 150px;
+}
+
 .box {
+  width: 150px;
+  height: 150px;
   display: inline-block;
-  width: 200px;
-  height: 200px;
   margin-bottom: -4px;
+  border: 2px solid rgb(255, 255, 255);
 }

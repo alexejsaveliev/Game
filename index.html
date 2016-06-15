@@ -2,10 +2,11 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello React!</title>
+    <title>The Game</title>
     <script src="libs/build/react.js"></script>
     <script src="libs/build/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css" charset="utf-8">
   </head>
   <body>
@@ -13,14 +14,22 @@
     <script type="text/babel">
 
       var innerColors = [
-        'rgb(129, 184, 165)',
-        'rgb(162, 96, 43)',
-        'rgb(37, 112, 33)',
-        'rgb(217, 205, 50)',
-        'rgb(68, 99, 157)',
-        'rgb(0, 0, 0)',
-        'rgb(50, 39, 96)',
-        'rgb(72, 207, 247)'
+        { id: 1,
+        color: 'rgb(129, 184, 165)' },
+        { id: 2,
+        color: 'rgb(162, 96, 43)' },
+        { id: 3,
+        color: 'rgb(37, 112, 33)' },
+        { id: 4,
+        color: 'rgb(217, 205, 50)' },
+        { id: 5,
+        color: 'rgb(68, 99, 157)' },
+        { id: 6,
+        color: 'rgb(255, 0, 0)' },
+        { id: 7,
+        color: 'rgb(50, 39, 96)' },
+        { id: 8,
+        color: 'rgb(72, 207, 247)' },
       ];
 
       Array.prototype.shuffle = function() {
@@ -33,11 +42,42 @@
       colors = colors.concat(innerColors);
       colors.shuffle();
 
+      var prevTarget;
+
       var Square = React.createClass({
+        getInitialState: function() {
+          return {opened: false}
+        },
+
+        checkColor: function (e) {
+          if (this.state.opened) {
+            return;
+          }
+
+          this.setState( {opened: true} );
+
+          if ( prevTarget ) {
+            if ( prevTarget.props.id != this.props.id ) {
+
+              // console.log(prevTarget);
+              setTimeout( function (target, prevTarget) {
+                prevTarget.setState( {opened: false} );
+                target.setState( {opened: false} );
+              }, 500, this, prevTarget);
+
+              prevTarget = undefined;
+            } else {
+              prevTarget = undefined;
+            }
+          } else {
+            prevTarget = this;
+          }
+        },
+
         render: function() {
           return (
             <div className="box" style={this.props.style}>
-
+              { this.state.opened ? null : <div className="box-shader" onClick={this.checkColor}></div> }
             </div>
           )
         }
@@ -49,11 +89,11 @@
             <div className="box-container">
               <h1>Game</h1>
               {
-                colors.map(function(el) {
+                colors.map(function(el, index) {
                   var boxStyle = {
-                    backgroundColor: el,
+                    backgroundColor: el.color
                   };
-                  return <Square style={boxStyle} />;
+                  return <Square key={index} id={el.id} style={boxStyle} />;
                 })
               }
             </div>
