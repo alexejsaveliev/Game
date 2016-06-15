@@ -107,6 +107,7 @@
         },
 
         resetGame: function() {
+          colors.shuffle();
           this.setState({
             gameOver: false,
             reset: !this.state.reset,
